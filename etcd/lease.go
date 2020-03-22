@@ -45,14 +45,14 @@ func (c *etcd) Lease(node, url string) error {
 				goto END
 			case resp := <-keepAliveChan:
 				if resp == nil {
-					fmt.Println("续租失败")
+					//fmt.Println("续租失败")
 					goto END
 				} else {
-					fmt.Println("续租成功" + node)
+					//fmt.Println("续租成功" + node)
 				}
 			}
 		}
 	END:
 	}
-	return nil
+	return errors.New("listen out")
 }
