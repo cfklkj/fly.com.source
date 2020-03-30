@@ -1,0 +1,17 @@
+ 
+ @import "layout_one.css"; 
+ @import "bodyLeft.css"; 
+ @import "bodyRight.css"; 
+ @import "bodyRightDlg.css"; 
+
+html,body{ 
+  overflow-x:hidden;
+  overflow-y:hidden;
+}
+ 
+body{
+    margin:0px;
+    padding:0px;
+    font-family:sans-serif;
+    background: rgba(#d4c5c5, #d4c5c5, #d4c5c5, 0.7); 
+}

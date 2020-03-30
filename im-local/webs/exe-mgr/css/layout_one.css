@@ -1,0 +1,27 @@
+ 
+#bodys{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  /*实现块元素百分比下居中*/
+  width:976px;
+  height:756px;
+  background:rgba(243,241,243,1);
+  opacity:1;
+  border-radius:15px; 
+}
+.bodysLeft{
+  display: inline-block;
+  width: 180px;
+  height: 100%;
+  border-radius: 15px 0  0 15px;
+  background-color: skyblue;
+} 
+.bodysRight{
+  float: right;
+  width: 796px;
+  height: 100%;
+  border-radius: 0 15px 15px 0;
+  background-color: rgb(148, 194, 214);
+}

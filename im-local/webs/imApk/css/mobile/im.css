@@ -1,0 +1,32 @@
+
+ @import "layoutMenu.css";
+ @import "layoutTitle.css";
+ @import "layoutChats.css";
+ @import "layoutChat.css";
+ @import "layoutLogin.css";
+ @import "showImg.css";
+
+ /* 4倍 */
+body{  
+   margin: 0;
+   padding: 0;
+} 
+#bodys{ 
+    z-index: 1;
+    width: 100%;
+    height: 100%; 
+    position: absolute;
+    overflow: hidden;
+}
+
+.main{
+    min-width: 300px;
+    min-height: 700px; 
+}
+
+.console{
+    position: absolute;
+    min-width: 50px;
+    min-height: 100px;
+}
+

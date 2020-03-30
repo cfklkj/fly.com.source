@@ -1,0 +1,35 @@
+
+.hideDiv{
+    display:none;
+}
+
+.triangle_right {
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border: solid 6px;
+    border-color: rgba(243,241,243,1) rgba(243,241,243,1) rgba(243,241,243,1)#ef8201;
+    float: right;
+    margin-top: 10px;
+    margin-left: -1px;  
+}
+.triangle_left {
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border: solid 6px;
+    border-color: rgba(243,241,243,1) #0181cc rgba(243,241,243,1) rgba(243,241,243,1);
+    float: left;
+    margin-top: 10px;
+    margin-left: -1px;  
+}
+.triangle_up {
+    width: 0;
+    height: 0;
+    font-size: 0;
+    border: solid 6px;
+    border-color:#0181cc rgba(243,241,243,1)  rgba(243,241,243,1) rgba(243,241,243,1);
+    float: center;
+    margin-top: 10px;
+    margin-left: -1px;  
+}

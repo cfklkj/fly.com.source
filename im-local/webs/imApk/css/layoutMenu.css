@@ -1,0 +1,44 @@
+.menu{ 
+    z-index: 99;
+    height: 80px;  
+    width: 100%;
+    position: fixed;
+    bottom:0; 
+    background-color: blueviolet;
+    display: inline-flex;
+}
+
+.menuApk{ 
+    z-index: 99;
+    max-height: 150px; 
+    min-height: 150px;
+    width: 100%;
+    position: fixed;
+    bottom:0; 
+    background-color: blueviolet;
+}
+ 
+
+.chatsTag {
+    padding-left: 20px;
+    padding-top: 13px;
+}
+
+.chatsTag img{
+    width: 48px;
+    height: 48px;
+    background-image: url("../image/info.png");
+    background-size: 48px 48px;
+}
+
+.user {
+    padding-left: 20px;
+    padding-top: 13px;
+}
+
+.user img{
+    width: 48px;
+    height: 48px;
+    background-image: url("../image/me.png");
+    background-size: 48px 48px; 
+}

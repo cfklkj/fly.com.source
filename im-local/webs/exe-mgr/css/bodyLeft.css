@@ -1,0 +1,48 @@
+ 
+ .bodysLeft div[index="1"]{
+    position: absolute; 
+    width: inherit;
+    height: 64px;
+    border-radius: 15px 0  0 0;  
+    text-align: center;
+    margin-top: 18px;
+} 
+.bodysLeft div[index="1"] img{
+  width:64px;
+  height: 64px; 
+  background-image: url(../image/ic_logo.png);
+  background-size: 35px 35px;
+}
+
+.bodysLeft div[index="2"]{
+  position: absolute; 
+  top:100px;
+  width: inherit;
+  height: 42px; 
+  text-align: center; 
+} 
+.bodysLeft div[index="3"]{
+  position: absolute; 
+  top:144px;
+  width: inherit;
+  height: 42px; 
+  text-align: center; 
+} 
+.bodysLeft div[index="2"] p, .bodysLeft div[index="3"] p{ 
+    margin: 0px;
+    border-bottom: 1px dashed #d09c6b;
+    overflow-x: hidden;
+    padding-bottom: 11px;
+    padding-top: 11px;  
+    user-select: none;
+} 
+.bodysLeft div p:hover{ 
+  background-color: lemonchiffon;
+} 
+
+.select{
+  background-color: rgb(125, 139, 139);
+}
+.unSelect{
+  background-color: rgb(151, 209, 231);
+}

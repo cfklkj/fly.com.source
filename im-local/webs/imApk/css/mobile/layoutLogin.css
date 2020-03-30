@@ -1,0 +1,92 @@
+.login{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(167, 174, 192);
+    position: fixed;
+    top: 0; 
+    text-align: center;
+} 
+
+
+.logo {
+    width:100%;
+    height: 300px; 
+    margin-top: 200px;
+    text-align: center;
+}
+
+.logo div{ 
+    width: 192px;   
+    height: 192px;
+    background-image: url("../../image/exeIcon.png"); 
+    background-size: 192px 192px;  
+  
+    top:50%;
+    margin-top: -96px;  
+    
+    position: relative; 
+    left:50%;
+    margin-left: -96px;  
+}
+
+.loginParam {
+    width: 100%;
+    height: 240px; 
+}
+
+.loginData {
+    width: 784px;
+    height: 116px; 
+    opacity: 1;
+    border-radius: 8px;
+    padding-bottom: 7px;
+    left: 50%;
+    position: relative;
+    margin-left: -392px;
+    background: rgba(224,221,225,1);
+    margin-top: 100px;
+}
+
+
+.loginData div {
+    width: 64px;
+    height: 64px;
+    margin-left: 24px;
+    margin-top: 36px;
+    float: left;
+    background-image: url("../../image/emotion.png");
+    background-size: 64px 64px; 
+    border: none;
+}
+
+.loginData input {
+    margin-left: -64px;
+    margin-top: 16px; 
+    outline: none;
+    background: transparent;
+    border: none;
+    outline: medium;
+    width:500px;
+    height: 64px;
+    font-size: 64px;
+    text-align: center;
+}
+
+.doLogin {
+    width: 100%;
+    height: calc(100% - 200px);
+}
+
+.doLogin div{
+    width: 192px;
+    height: 192px;
+    background-image: url("../../image/back.png");
+    background-size: 192px 192px; 
+    border:none;
+    left:50%;
+    margin-left: -96px;  
+    position: fixed;
+}
+.doLogin :hover{
+    cursor: pointer;
+}

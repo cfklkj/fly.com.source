@@ -1,0 +1,22 @@
+
+#chat_main{
+    width:782px;
+    height:774px;
+    background:rgba(243,241,243,1);
+    opacity:1;
+    border-radius:0px 15px 15px 0px;
+}
+.chat_l{ 
+    width:218px;
+    height:774px;
+    background:rgba(194,189,197,0.3); 
+}  
+.chat_r{  
+    margin-left: 218px;
+    margin-top: -799px;
+    width:564px;
+    height:774px;
+    background:rgba(194,189,197,0.3); 
+    border-radius:0px 15px 15px 0px;
+}  
+ 

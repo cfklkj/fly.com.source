@@ -1,0 +1,36 @@
+.menu{ 
+    z-index: 99;
+    height: 160px;  
+    width: 100%;
+    position: fixed;
+    bottom:0; 
+    background-color: blueviolet;
+    display: inline-flex;
+}
+ 
+
+.chatsTag {
+    padding-left: 40px;
+    padding-top: 26px;
+}
+
+.chatsTag div{
+    width: 96px;
+    height: 96px;
+    background-image: url("../../image/info.png");
+    background-size: 96px 96px;
+    border: none;
+}
+
+.user {
+    padding-left: 40px;
+    padding-top: 26px;
+}
+
+.user div{
+    width: 96px;
+    height: 96px;
+    background-image: url("../../image/me.png");
+    background-size: 96px 96px; 
+    border: none;
+}

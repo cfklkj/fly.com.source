@@ -1,0 +1,77 @@
+.login{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(167, 174, 192);
+    position: fixed;
+    top: 0; 
+    text-align: center;
+} 
+
+
+.logo {
+    width:100%;
+    height: 100px; 
+    margin-top: 300px;
+}
+
+.logo img{ 
+    width: 48px;
+    height: 48px;
+    background-image: url("../image/exeIcon.png");
+    background-size: 48px 48px; 
+    position: relative; 
+    top:50%;
+    margin-top: -24px;
+}
+
+.loginParam {
+    width: 100%;
+    height: 60px; 
+}
+
+.loginData {
+    width: 196px;
+    height: 29px; 
+    opacity: 1;
+    border-radius: 8px;
+    padding-bottom: 7px;
+    left: 50%;
+    position: relative;
+    margin-left: -98px;
+    background: rgba(224,221,225,1);
+}
+
+
+.loginData img {
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+    margin-top: 9px;
+    float: left;
+    background-image: url("../image/emotion.png");
+    background-size: 16px 16px;
+}
+
+.loginData input {
+    margin-left: 10px;
+    margin-top: 8px;
+    outline: none;
+    background: transparent;
+    border: none;
+    outline: medium;
+}
+
+.doLogin {
+    width: 100%;
+    height: calc(100% - 200px);
+}
+
+.doLogin img{
+    width: 48px;
+    height: 48px;
+    background-image: url("../image/back.png");
+    background-size: 48px 48px; 
+}
+.doLogin :hover{
+    cursor: pointer;
+}

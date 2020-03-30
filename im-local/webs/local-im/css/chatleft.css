@@ -1,0 +1,111 @@
+
+#chat_l_t{
+    width:218px;
+    height:41px;
+    background:rgba(243,241,243,1); 
+    padding-left: 10px;
+    padding-top:19px;
+}
+.chat_l_t_search{
+    width:196px;
+    height:29px;
+    background:rgba(224,221,225,1);
+    opacity:1;
+    border-radius:8px;
+    padding-bottom: 7px; 
+}
+.chat_l_t_search img{ 
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+    margin-top:9px;
+    float: left;
+    background-image: url(../image/search2.png);
+    background-size: 16px 16px;
+} 
+.chat_l_t_search input{ 
+    margin-left: 10px;
+    margin-top:8px;
+    outline:none;
+    background:transparent;
+    border:none;
+    outline:medium;
+}
+
+#chat_l_b {
+    border: 1px solid #453321;
+    width: 218px;
+    height: 714px;
+    display: block; 
+    border:none;
+    background: #93775d; 
+    color: #fff;
+    font-size: 14px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+ 
+#chat_l_b p {
+    margin:0px;
+    border-bottom: 1px dashed #d09c6b; 
+    overflow-x: hidden;
+    padding-bottom: 11px;
+    padding-top: 11px;
+}
+#chat_l_b p:hover {
+    background: rgb(183, 160, 60);
+}
+#chat_l_b p img {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #ff9b67;
+    border-radius: 5px;
+    margin-left: 6px;  
+    float: left; 
+    background-image: url(../image/chatCuster.png);
+    background-size: 35px 35px;
+    
+}
+#chat_l_b p span[index="1"]{
+    display: inline;   
+    width:56px;
+    height:19px;
+    font-size:14px;
+    font-family:Segoe UI;
+    font-weight:400;
+    line-height:19px;
+    color:rgba(37, 10, 53, 1);
+    opacity:1;
+    margin-left: 6px;
+}
+#chat_l_b p span[index="2"]{
+    float: right;  
+    height:16px;
+    font-size:12px;
+    font-family:Segoe UI;
+    font-weight:400;
+    line-height:16px;
+    color:rgba(187,183,188,1);
+    opacity:1;
+    margin-right:12px;
+}
+#chat_l_b p span[index="3"]{
+    float: left;  
+    width:152px;
+    height:16px;
+    font-size:12px;
+    font-family:Segoe UI;
+    font-weight:400;
+    line-height:16px;
+    color:rgba(187,183,188,1);
+    opacity:1;
+    margin-left: 6px;
+    max-width: 16em;
+    text-overflow: ellipsis; 
+    overflow: hidden;
+    white-space: nowrap;
+} 
+
+.selectContent{
+    background: salmon;  
+}

@@ -1,0 +1,73 @@
+
+.in_main{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    /*实现块元素百分比下居中*/
+    width:866px;
+    height:774px;
+    background:rgba(243,241,243,1);
+    opacity:1;
+    border-radius:15px;
+}
+.in-left{width:84px; height: 100%; opacity:1;background-color: #250A35; border-radius:15px 0px 0px 15px;} 
+.in-right{margin-left:84px; margin-top: -774px; width:782px; height: 100%;} 
+
+#l_me img{
+    width: 48px;
+    height: 48px;
+    background-image: url(../image/me.png);
+    background-size: 48px 48px;
+}
+
+#l_me {
+    padding-top: 28px;
+    padding-left: 19px;
+} 
+#l_chat {
+    padding-top: 28px;
+    padding-left: 19px;
+}
+#l_chat img{
+    width: 48px;
+    height: 48px;
+}
+
+#l_black {
+    padding-top: 28px;
+    padding-left: 19px;
+}
+#l_black img{
+    width: 48px;
+    height: 48px;
+} 
+
+#l_set {
+    padding-top: 480px;
+    padding-left: 19px;
+}
+#l_set img{
+    width: 48px;
+    height: 48px;
+}
+
+.popName {
+    margin-left: -19px;
+    text-align: center; 
+} 
+.popName div{
+    display:inline-block;
+    background:#0181cc;
+    border-radius:10px;
+    color:#fff;
+    padding:5px 10px;
+    max-width: 468px; 
+    padding-bottom: 10px; 
+    padding-top: 9px;
+    font-size: 16px;
+
+    word-break:normal;   
+    white-space:pre-wrap;
+    word-wrap : break-word ; 
+} 

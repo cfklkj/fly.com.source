@@ -1,0 +1,187 @@
+
+#chat{
+    width:100%; 
+    height:calc(100% - 70px);
+    margin:0 1px;
+    top:70px;
+    position: relative;
+}
+#chat textarea{
+    width: calc(100% - 90px); 
+    overflow:no;  
+    margin: 9px 10px 0 10px;
+    height: 55px; 
+    font-size: 19px;
+}
+
+.log{    
+    background:rgba(243,241,243,1); 
+    height:calc(100% - 80px);
+    overflow-x:hidden;  
+}
+
+.edit{
+    width:100%;  
+    height: 200px;
+    display: block; 
+    background: rgba(253,254,255,1); 
+    color: #fff;
+    font-size: 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius:0 0 15px 0;
+}
+  
+.edit span[index="1"] {
+    float: right;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+.edit span[index="1"] img{ 
+    width: 26px;
+    height: 26px;
+    background-image: url(../image/file.png);
+    background-size: 26px 26px;
+}
+.edit input[type="button"] {
+    float: right;
+    margin-right: 10px;
+    top:-25px;
+    position: relative;
+}
+.edit span[index="2"] img{
+    margin-top: 12px;
+    margin-left: 15px;
+    width: 26px;
+    height: 26px;
+}
+
+#talkwords{
+    margin-left: 25px;
+    width:514px;   
+    height:106px;
+    padding:0px;
+    float:left; 
+    outline:none;
+    text-indent:10px;
+    border:none;  
+    font-size: 17px;
+}
+
+#talksub{
+    width:56px;
+    height:30px;
+    float: right;;
+    margin-right:28px;
+}
+.talk_con{
+    width:920px;
+    height:700px;
+    border:1px solid #666;
+    margin:50px auto 0;
+    background:#f9f9f9;
+}
+
+.whotalk{
+    width:80px;
+    height:30px;
+    float:left;
+    outline:none;
+}       
+.atalk{
+    margin:10px; 
+    text-align:left;
+}
+.atalk span xmp, .atalk span div{
+    display:inline-block;
+    background:#0181cc;
+    border-radius:10px;
+    color:#fff;
+    padding:5px 10px;
+    max-width: calc(100% - 150px); 
+    padding-bottom: 10px; 
+    padding-top: 9px;
+    font-size: 16px;
+    margin-top: inherit;
+
+    word-break:normal;   
+    white-space:pre-wrap;
+    word-wrap : break-word ; 
+} 
+.atalk a{
+    color: black;
+}
+.btalk{
+    margin:10px;
+    text-align:right;
+}  
+.btalk span xmp, .btalk span div{
+    display:inline-block;
+    background:#ef8201;
+    border-radius:10px;
+    color:#fff;
+    padding:5px 10px; 
+    max-width: calc(100% - 150px); 
+    padding-bottom: 10px; 
+    padding-top: 9px;
+    font-size: 16px;
+    margin-top: inherit;
+
+    word-break:normal;   
+    white-space:pre-wrap;
+    word-wrap : break-word ; 
+    text-align:left;
+} 
+.atalk span img{
+    width: 86px;
+    height: 86px;
+}
+.btalk span img{
+    width: 86px;
+    height: 86px;
+}
+
+span[index="chatImg2"] {
+    display: inline;
+}
+span img[index="chatImg2"] {
+    width: 25px;
+    height: 25px; 
+    float: left;
+    background-image: url(../image/chatCuster.png);
+    background-size: 25px 25px;
+}
+
+span img[index="chatImg1"] {
+    display: inline;
+}
+span img[index="chatImg1"]{
+    width: 25px;
+    height: 25px;
+    top:0; 
+    float: right;
+    background-image: url(../image/chatMaster.png);
+    background-size: 25px 25px;
+}
+
+.triangle_left {
+    width: 0px;
+    height: 0px;
+    font-size: 0px;
+    border: solid 6px;
+    border-color: rgba(243,241,243,1) #0181cc rgba(243,241,243,1) rgba(243,241,243,1);
+    float: left;
+    margin-top: 10px;
+    margin-left: -1px;
+}
+
+.triangle_right {
+    width: 0px;
+    height: 0px;
+    font-size: 0px;
+    border: solid 6px;
+    border-color: rgba(243,241,243,1) rgba(243,241,243,1) rgba(243,241,243,1)#ef8201;
+    float: right;
+    margin-top: 10px;
+    margin-left: -1px;
+}

@@ -1,0 +1,29 @@
+.showImg {
+    position:absolute; 
+    z-index:9999999999; 
+    width:100%; 
+    height:100%;  
+    background:rgba(223, 199, 196, 0.3);   /*背景透明，上层不透明*/
+    opacity:1;
+    top:0px;
+}
+.showImg span[index="1"]{   
+    float: right; 
+    margin-right: 10px; 
+    opacity:1;
+}
+.showImg span[index="1"] img{  
+    width: 25px;
+    height: 25px;
+    background-image: url(../../image/exit.png);
+    background-size: 25px 25px;
+}
+ /*居中*/
+.showImg span[index="2"] img{  
+    position: absolute;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    margin:auto;
+}
