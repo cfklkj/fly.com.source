@@ -2,6 +2,7 @@
 package codeImg
 
 import (
+	"bufio"
 	"errors"
 	"image"
 	"image/draw"
@@ -14,6 +15,30 @@ import (
 
 var err error
 
+//--https://www.cnblogs.com/satng/p/5584429.html
+func ResizeImg(pngPath string, x, y, w, h int) (image.Image, error) {
+	fileObj, err := os.Open(pngPath)
+	if err != nil {
+		return nil, err
+	}
+	defer fileObj.Close()
+	bbb := bufio.NewReader(fileObj)
+	m, _, err := image.Decode(bbb) // 图片文件解码
+	if err != nil {
+		return nil, err
+	}
+	rgbImg := m.(*image.YCbCr)
+	w = x + w
+	y = y + w
+	if w > m.Bounds().Max.X || w == 0 {
+		w = m.Bounds().Max.X
+	}
+	if h > m.Bounds().Max.Y || h == 0 {
+		h = m.Bounds().Max.Y
+	}
+	subImg := rgbImg.SubImage(image.Rect(x, y, w, h)).(*image.YCbCr) //图片裁剪x0 y0 x1 y1
+	return subImg, nil
+}
 func CreateAvatar(content, pngPath string) (image.Image, error) {
 	var (
 		bgImg      image.Image
@@ -31,6 +56,7 @@ func CreateAvatar(content, pngPath string) (image.Image, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer avatarFile.Close()
 	avatarImg, err = png.Decode(avatarFile)
 	if err != nil {
 		return nil, err

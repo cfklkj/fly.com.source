@@ -8,6 +8,8 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strconv"
+	"strings"
 
 	"./codeImg"
 	encode "github.com/skip2/go-qrcode"
@@ -32,6 +34,34 @@ func main() {
 		i, err := os.Create(path.Base(os.Args[4]))
 		if err != nil {
 			fmt.Println("生成二维码失败:", err)
+			return
+		}
+		defer i.Close()
+		err = png.Encode(i, qrCodeImg)
+		if err != nil {
+			fmt.Println("生成二维码失败:", err)
+			return
+		}
+		fmt.Println(path.Base(os.Args[4]))
+		return
+	case "-resize":
+		if len(os.Args) < 5 {
+			break
+		}
+		args := strings.Split(os.Args[2], ",")
+		x, _ := strconv.Atoi(args[0])
+		y, _ := strconv.Atoi(args[1])
+		w, _ := strconv.Atoi(args[2])
+		h, _ := strconv.Atoi(args[3])
+		qrCodeImg, err := codeImg.ResizeImg(os.Args[3], x, y, w, h)
+		if err != nil {
+			fmt.Println("err ResizeImg:", err)
+			return
+		}
+
+		i, err := os.Create(path.Base(os.Args[4]))
+		if err != nil {
+			fmt.Println("err Create:", err)
 			return
 		}
 		defer i.Close()
@@ -78,5 +108,5 @@ func main() {
 	default:
 	}
 end:
-	fmt.Println("eg: -e hello fullPath.png\n-emg hello head.png keepto.png\n-d hello.png")
+	fmt.Println("eg:\n-resize x,y,w,h src des\n -e hello fullPath.png\n-emg hello head.png keepto.png\n-d hello.png")
 }
