@@ -52,7 +52,7 @@ func GetClipboardCmdLines() ([]string, error) {
 		return nil, err
 	}
 	res := []string{}
-	cmdLines := strings.Split(content, "\n")
+	cmdLines := strings.(content, "\n")
 	for _, v := range cmdLines {
 		//去头尾
 		str := strings.TrimLeft(v, " ")
