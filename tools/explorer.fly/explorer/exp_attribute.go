@@ -103,6 +103,10 @@ func (c *explorer) checkPathNode(pwd []string) error {
 }
 
 //pwd node
+func (c *explorer) getPwdStr() string {
+	pwd, _ := c.getPwd()
+	return c.nodeToStr(pwd)
+}
 func (c *explorer) getPwdNode(head *PathNode) (pre *PathNode, recent *PathNode, next *PathNode) {
 	pwd, err := c.getPwd()
 	if err != nil {

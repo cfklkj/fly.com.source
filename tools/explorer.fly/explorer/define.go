@@ -9,4 +9,6 @@ const (
 	Json_dir          = 2001
 	Cmd_pwd           = "3001"
 	Cmd_dir           = "3002"
+	Ls_dir            = "-d"
+	Ls_file           = "-f"
 )

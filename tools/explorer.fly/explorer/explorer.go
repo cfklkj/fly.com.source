@@ -11,12 +11,13 @@ import (
 
 type Exp interface {
 	Pwd() error
-	Ls(path string) error
+	Ls(path string, switchLs string) error
 	Cd(path string) error
 	Mkdir(path string) error
 	Mkfile(path string) error
 	Rm(path string) error
-	Mv(path string) error
+	Mv(path string, newName string) error
+	Find(path string, str string) error
 }
 
 func Exps() Exp {
@@ -68,7 +69,7 @@ func (c *explorer) Mkdir(path string) error {
 		c.db.SetKeyValue(Cmd_dir, dirs)
 		return c.Cd(path)
 	} else {
-		return c.Pwd()
+		return errors.New("err existed! " + path)
 	}
 }
 
@@ -126,7 +127,7 @@ func (c *explorer) Cd(path string) error {
 	return c.Pwd()
 }
 
-func (c *explorer) Ls(path string) error {
+func (c *explorer) Ls(path string, switchLs string) error {
 	pwd, v := c.split(path)
 	if v != nil {
 		return v
@@ -136,16 +137,36 @@ func (c *explorer) Ls(path string) error {
 		return err
 	}
 	_, _, next := c.getPathNode(dirs, pwd)
-	for k, v := range next.Node {
-		if v.Next != nil {
-			fmt.Println(k)
-		} else {
-			path := c.db.GetWorkPath() + "/" + v.Guid
-			path, _ = filepath.Abs(path)
-			fmt.Println(k + "\t--> " + path)
-		}
+	if next == nil {
+		return errors.New("no find node!")
 	}
+	step := 0
+	c.ls(c.nodeToStr(pwd), next, switchLs, &step)
 	return nil
+}
+func (c *explorer) ls(pwd string, node *PathNode, switchLs string, step *int) {
+	for k, v := range node.Node {
+		if v == nil {
+			continue
+		}
+
+		if v.Next != nil {
+			c.ls(pwd+k+"/", v.Next, switchLs, step)
+		}
+		switch switchLs {
+		case Ls_dir:
+			if v.Next == nil {
+				continue
+			}
+		case Ls_file:
+			if v.Next != nil {
+				continue
+			}
+		default:
+		}
+		c.printPwd(pwd, k, v)
+		c.showMore(step)
+	}
 }
 func (c *explorer) Rm(path string) error {
 	k, v := c.split(path)
@@ -209,7 +230,7 @@ func (c *explorer) deleteNodeFiles(node *PathNode) {
 	}
 }
 
-func (c *explorer) Mv(path string) error {
+func (c *explorer) Mv(path string, newName string) error {
 	k, v := c.split(path)
 	if v != nil {
 		return v
@@ -223,11 +244,37 @@ func (c *explorer) Mv(path string) error {
 		return errors.New("no find:" + path)
 	}
 	node := k[len(k)-1]
+	des := node
+	if newName != "" {
+		des = newName
+	}
 	_, _, pwd := c.getPwdNode(dirs)
-	pwd.Node[node] = recent.Node[node] //add
-	delete(recent.Node, node)          //mv
+	if pwd.Node[des] != nil {
+		return errors.New("local have same node!")
+	}
+	pwd.Node[des] = recent.Node[node] //add
+	delete(recent.Node, node)         //mv
 	c.db.SetKeyValue(Cmd_dir, dirs)
-	path = c.db.GetWorkPath() + "/" + pwd.Node[node].Guid
-	fmt.Println(path)
+	c.printPwd(c.getPwdStr(), des, pwd.Node[des])
+	return nil
+}
+func (c *explorer) Find(path string, str string) error {
+	if str == "" {
+		return errors.New("findStr is empty")
+	}
+	k, v := c.split(path)
+	if v != nil {
+		return v
+	}
+	dirs, err := c.getDBdir()
+	if err != nil {
+		return err
+	}
+	_, _, pwd := c.getPathNode(dirs, k)
+	if pwd == nil {
+		return errors.New("no find:" + path)
+	}
+	step := 0
+	c.findStr(c.nodeToStr(k), pwd, str, &step)
 	return nil
 }

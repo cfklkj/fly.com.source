@@ -49,6 +49,9 @@ func (c *explorer) getPathHead(path string) ([]string, error) {
 
 //解析目录
 func (c *explorer) split(path string) ([]string, error) {
+	if path == "" {
+		return nil, errors.New("path is empty")
+	}
 	pathRem := strings.Replace(path, " ", "", -1)
 	head, err := c.getPathHead(pathRem)
 	if err != nil {
