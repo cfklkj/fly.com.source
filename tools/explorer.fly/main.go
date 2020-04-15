@@ -26,12 +26,13 @@ func showHelp(cmd string) {
 		"pwd":    "查看当前目录",
 		"mkdir":  "创建目录\n eg:\n\tmkdir path",
 		"mkfile": "创建文件\n eg:\n\tmkfile path",
+		"mktag":  "创建标签\n eg:\n\tmktag path tagname",
 		"rm":     "删除目标\n eg:\n\trm path",
 		"cd":     "变更到到指定目录\n eg:\n\tcd path",
 		"mv":     "移动目标到当前目录\n eg:\n\tmv path [newName]",
 		"mklink": "创建目标链接到当前目录\n eg:\n\tmklink path [newName]",
-		"ls":     "列出信息:\n\t-f 文件\n\t-d 目录\n 复选: \n\t-a 列出所有 \n eg:\n\tls path [-d] [-a]",
-		"find":   "查询信息:\n\t-f 文件\n\t-d 目录\t-v 文件内容查找\n 复选: \n\t-a 列出所有 \n eg:\n\tfind path str [-d] [-a]",
+		"ls":     "列出信息:\n\t-f 文件\n\t-d 目录\n 复选: \n\t-a 列出所有 \n eg:\n\tls path [-d] [-a]\n查找标签:\n\t-t [tagname]",
+		"find":   "查询信息:\n\t-f 文件\n\t-d 目录\t-v 文件内容查找\n 复选: \n\t-a 列出所有 \n eg:\n\tfind path str [-d] [-a]\n查找标签:\n\t-t pathName",
 	}
 	if v := helpStr[cmd]; v != "" {
 		fmt.Println(cmd, v)
@@ -76,6 +77,26 @@ func findTag(args []string, tag string) (bool, error) {
 func getTag(args []string, tag string) string {
 	for _, v := range args {
 		if strings.Contains(tag, v) {
+			return v
+		}
+	}
+	return ""
+}
+func getTagValue(args []string, tag string) string {
+	find := false
+	for _, v := range args {
+		if !find {
+			if strings.Contains(tag, v) {
+				find = true
+				continue
+			}
+		} else {
+			if v[0] == '-' {
+				return ""
+			}
+			if v == "" {
+				continue
+			}
 			return v
 		}
 	}
@@ -126,11 +147,23 @@ func exp(args []string) {
 	case "pwd":
 		exp.Pwd()
 	case "ls":
-		path := getArg(args, 2, ".")
-		switchLs := getTag(args, explorer.Ls_dir+explorer.Ls_file)
-		all := getTag(args, explorer.LayoutAll)
-		err := exp.Ls(path, all != "", switchLs)
-		checkErr(cmd, err)
+		switchLs := getTag(args, explorer.Ls_tag)
+		if switchLs != "" {
+			tagName := getTagValue(args, explorer.Ls_tag)
+			var err error
+			if tagName != "" {
+				err = exp.LsGuids(tagName)
+			} else {
+				err = exp.LsTags()
+			}
+			checkErr(cmd, err)
+		} else {
+			path := getArg(args, 2, ".")
+			switchLs := getTag(args, explorer.Ls_dir+explorer.Ls_file+explorer.Ls_tag)
+			all := getTag(args, explorer.LayoutAll)
+			err := exp.Ls(path, all != "", switchLs)
+			checkErr(cmd, err)
+		}
 	case "cd":
 		path := getArg(args, 2, ".")
 		err := exp.Cd(path)
@@ -144,6 +177,11 @@ func exp(args []string) {
 		fmt.Println(path)
 		err := exp.Mkfile(path)
 		checkErr(cmd, err)
+	case "mktag":
+		path := getArg(args, 2, "")
+		tagName := getArg(args, 3, "")
+		err := exp.Mktag(path, tagName)
+		checkErr(cmd, err)
 	case "rm":
 		path := getArg(args, 2, "")
 		err := exp.Rm(path)
@@ -154,12 +192,21 @@ func exp(args []string) {
 		err := exp.Mv(path, newName)
 		checkErr(cmd, err)
 	case "find":
-		path := getArg(args, 2, ".")
-		substr := getArg(args, 3, "")
-		switchFi := getTag(args, explorer.Fi_dir+explorer.Fi_file+explorer.Fi_value)
-		all := getTag(args, explorer.LayoutAll)
-		err := exp.Find(path, substr, all != "", switchFi)
-		checkErr(cmd, err)
+		switchLs := getTag(args, explorer.Ls_tag)
+		if switchLs != "" {
+			path := getTagValue(args, explorer.Ls_tag)
+			if path != "" {
+				err := exp.LsTagNames(path)
+				checkErr(cmd, err)
+			}
+		} else {
+			path := getArg(args, 2, ".")
+			substr := getArg(args, 3, "")
+			switchFi := getTag(args, explorer.Fi_dir+explorer.Fi_file+explorer.Fi_value)
+			all := getTag(args, explorer.LayoutAll)
+			err := exp.Find(path, substr, all != "", switchFi)
+			checkErr(cmd, err)
+		}
 	default:
 		help()
 	}

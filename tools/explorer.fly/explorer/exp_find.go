@@ -13,7 +13,10 @@ import (
 func (c *explorer) printPwd(pwd string, nodeName string, node *PathNameAttribute) {
 	path := ""
 	if node.Next != nil {
-		path = pwd + nodeName + "/"
+		path = pwd
+		if nodeName != "" {
+			path += nodeName + "/"
+		}
 		if strings.Contains(node.Guid, Ln_dir) {
 			guid := strings.Replace(node.Guid, Ln_dir, "", -1)
 			dirs, _ := c.getDBdir()

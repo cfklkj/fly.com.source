@@ -13,10 +13,14 @@ import (
 type Exp interface {
 	Pwd() error
 	Ls(path string, all bool, switchLs string) error
+	LsGuids(tagName string) error
+	LsTagNames(path string) error
+	LsTags() error
 	Cd(path string) error
 	Mkdir(path string) error
 	Mkfile(path string) error
 	Mklink(path, newName string) error
+	Mktag(path, tagName string) error
 	Rm(path string) error
 	Mv(path string, newName string) error
 	Find(path string, str string, all bool, switchFi string) error
@@ -154,6 +158,73 @@ func (c *explorer) Mklink(path string, newName string) error {
 	c.db.SetKeyValue(Cmd_dir, dirs)
 	c.printPwd(c.getPwdStr(), des, pwd.Node[des])
 	return nil
+}
+
+func (c *explorer) Mktag(path string, tagName string) error {
+	if tagName == "" {
+		return errors.New("tagName is empty!")
+	}
+	k, v := c.split(path)
+	if v != nil {
+		return v
+	}
+	dirs, err := c.getDBdir()
+	if err != nil {
+		return err
+	}
+	guid, _, _ := c.getPathNode(dirs, k)
+	if guid == "" {
+		return errors.New("no find:" + path)
+	}
+	fmt.Println(tagName + ":\t--> " + c.nodeToStr(k))
+	return c.tagAdd(tagName, guid)
+}
+
+func (c *explorer) LsGuids(tagName string) error {
+	guids, err := c.getTagGuids(tagName)
+	if err != nil {
+		return err
+	}
+	dirs, err := c.getDBdir()
+	if err != nil {
+		return err
+	}
+	fmt.Println(tagName + ":")
+	for _, v := range guids {
+		if v == "" {
+			continue
+		}
+		pwdStr, recent, _ := c.getPathNodeByGuid("", dirs, &v)
+		if recent == nil {
+			continue
+		}
+		nodes, err := c.split(pwdStr)
+		if err != nil {
+			continue
+		}
+		node := nodes[len(nodes)-1]
+		c.printPwd(pwdStr, "", recent.Node[node])
+	}
+	return nil
+}
+func (c *explorer) LsTagNames(path string) error {
+	pwd, v := c.split(path)
+	if v != nil {
+		return v
+	}
+	dirs, err := c.getDBdir()
+	if err != nil {
+		return err
+	}
+	guid, _, _ := c.getPathNode(dirs, pwd)
+	if guid == "" {
+		return errors.New("no find path:" + path)
+	}
+	fmt.Println(path + ":")
+	return c.getGuidTags(guid)
+}
+func (c *explorer) LsTags() error {
+	return c.getTags()
 }
 
 func (c *explorer) Cd(path string) error {

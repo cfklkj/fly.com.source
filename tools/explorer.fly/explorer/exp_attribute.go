@@ -146,7 +146,10 @@ func (c *explorer) getPathNodeByGuid(node string, head *PathNode, guid *string) 
 			}
 		}
 		if v.Next != nil {
-			return c.getPathNodeByGuid(node+"/"+k, v.Next, guid)
+			pwd, recent, next = c.getPathNodeByGuid(node+"/"+k, v.Next, guid)
+			if pwd != "" {
+				return pwd, recent, next
+			}
 		}
 	}
 	return "", nil, nil
