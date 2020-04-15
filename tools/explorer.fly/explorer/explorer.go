@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"../localDB"
 )
@@ -15,9 +16,10 @@ type Exp interface {
 	Cd(path string) error
 	Mkdir(path string) error
 	Mkfile(path string) error
+	Mklink(path, newName string) error
 	Rm(path string) error
 	Mv(path string, newName string) error
-	Find(path string, str string) error
+	Find(path string, str string, switchFi string) error
 }
 
 func Exps() Exp {
@@ -115,6 +117,38 @@ func (c *explorer) Mkfile(path string) error {
 	}
 }
 
+func (c *explorer) Mklink(path string, newName string) error {
+	k, v := c.split(path)
+	if v != nil {
+		return v
+	}
+	dirs, err := c.getDBdir()
+	if err != nil {
+		return err
+	}
+	_, recent, _ := c.getPathNode(dirs, k)
+	if recent == nil {
+		return errors.New("no find:" + path)
+	}
+	node := k[len(k)-1]
+	des := node
+	if newName != "" {
+		des = newName
+	}
+	_, _, pwd := c.getPwdNode(dirs)
+	if pwd.Node[des] != nil {
+		return errors.New("local have same node!")
+	}
+	pwd.Node[des] = recent.Node[node] //add
+	guid := pwd.Node[des].Guid
+	if !strings.Contains(guid, Ln_file) {
+		pwd.Node[des].Guid = Ln_file + guid
+	}
+	c.db.SetKeyValue(Cmd_dir, dirs)
+	c.printPwd(c.getPwdStr(), des, pwd.Node[des])
+	return nil
+}
+
 func (c *explorer) Cd(path string) error {
 	k, v := c.split(path)
 	if v != nil {
@@ -206,13 +240,17 @@ func (c *explorer) Rm(path string) error {
 		node := k[length-1]
 		delete(recent.Node, node)
 		c.db.SetKeyValue(Cmd_dir, dirs)
-		if nodeIndex, pwdIndex, isCd := c.isPwd(k); isCd {
-			if nodeIndex == pwdIndex { //相同节点
-				return c.Cd("..")
+		if next != nil {
+			if nodeIndex, pwdIndex, isCd := c.isPwd(k); isCd {
+				if nodeIndex == pwdIndex { //相同节点
+					return c.Cd("..")
+				}
+				if nodeIndex < pwdIndex { //父节点
+					return c.Cd(c.nodeToStr(k[:length-1]))
+				}
 			}
-			if nodeIndex < pwdIndex { //父节点
-				return c.Cd(c.nodeToStr(k[:length-1]))
-			}
+		} else {
+			return nil
 		}
 	}
 	return c.Pwd()
@@ -223,9 +261,11 @@ func (c *explorer) deleteNodeFiles(node *PathNode) {
 		if v.Next != nil {
 			c.deleteNodeFiles(v.Next)
 		} else { //文件
-			path := c.db.GetWorkPath() + "/" + v.Guid
-			os.Remove(path)
-			fmt.Println(k)
+			if !strings.Contains(v.Guid, Ln_file) {
+				path := c.db.GetWorkPath() + "/" + v.Guid
+				os.Remove(path)
+				fmt.Println(k)
+			}
 		}
 	}
 }
@@ -258,7 +298,7 @@ func (c *explorer) Mv(path string, newName string) error {
 	c.printPwd(c.getPwdStr(), des, pwd.Node[des])
 	return nil
 }
-func (c *explorer) Find(path string, str string) error {
+func (c *explorer) Find(path string, str string, switchFi string) error {
 	if str == "" {
 		return errors.New("findStr is empty")
 	}
@@ -275,6 +315,6 @@ func (c *explorer) Find(path string, str string) error {
 		return errors.New("no find:" + path)
 	}
 	step := 0
-	c.findStr(c.nodeToStr(k), pwd, str, &step)
+	c.findStr(c.nodeToStr(k), pwd, str, switchFi, &step)
 	return nil
 }

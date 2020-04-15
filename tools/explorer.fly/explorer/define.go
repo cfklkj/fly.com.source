@@ -11,4 +11,9 @@ const (
 	Cmd_dir           = "3002"
 	Ls_dir            = "-d"
 	Ls_file           = "-f"
+	Fi_dir            = "-d"
+	Fi_file           = "-f"
+	Fi_value          = "-v"
+	Ln_file           = "lnf_"
+	Ln_dir            = "lnd_"
 )
