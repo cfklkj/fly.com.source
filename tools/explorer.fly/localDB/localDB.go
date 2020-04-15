@@ -1,8 +1,6 @@
 package localDB
 
 import (
-	"fmt"
-
 	files "../module/file"
 	conf "../module/util/config"
 )
@@ -25,17 +23,16 @@ func NewLocalDB() *LocalDB {
 func (c *LocalDB) LoadUserDB() {
 	path := c.addUserDir()
 	path += "/json.data"
-	fmt.Println("path", path)
 	c.configAct.SetConfigPath(path)
 	c.loadKeyValue()
 }
 
 func (c *LocalDB) addUserDir() string {
-	path := "./document/config"
+	path := c.GetWorkPath() + "/config"
 	c.fileAct.Mkdir(path)
 	return path
 }
 
 func (c *LocalDB) GetWorkPath() string {
-	return "./document"
+	return "./explorer.fly"
 }

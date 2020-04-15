@@ -107,27 +107,49 @@ func (c *explorer) getPwdStr() string {
 	pwd, _ := c.getPwd()
 	return c.nodeToStr(pwd)
 }
-func (c *explorer) getPwdNode(head *PathNode) (pre *PathNode, recent *PathNode, next *PathNode) {
+func (c *explorer) getPwdNode(head *PathNode) (guid string, recent *PathNode, next *PathNode) {
 	pwd, err := c.getPwd()
 	if err != nil {
-		return nil, nil, head
+		return "", nil, head
 	}
 	return c.getPathNode(head, pwd)
 }
 
 //获取节点
-func (c *explorer) getPathNode(head *PathNode, pwd []string) (pre *PathNode, recent *PathNode, next *PathNode) {
-	pre = head
+func (c *explorer) getPathNode(head *PathNode, pwd []string) (guid string, recent *PathNode, next *PathNode) {
+	recent = head
 	next = head
 	for _, v := range pwd {
-		if guid, err := next.GetGuid(v); guid == "" || err != nil { //节点不存在 或未初始化
-			return nil, nil, nil
+		tGuid, err := next.GetGuid(v)
+		if tGuid == "" || err != nil { //节点不存在 或未初始化
+			return "", nil, nil
 		} else {
-			head = next
+			guid = tGuid
+			recent = next
 			next, _ = next.GetNext(v)
 		}
 	}
-	return pre, head, next
+	return guid, recent, next
+}
+
+//node first = ""
+func (c *explorer) getPathNodeByGuid(node string, head *PathNode, guid *string) (pwd string, recent *PathNode, next *PathNode) {
+	for k, v := range head.Node {
+		if v == nil {
+			continue
+		}
+		if v.Guid == *guid {
+			if v.Next != nil {
+				return node + "/" + k + "/", head, v.Next
+			} else {
+				return node + "/" + k, head, v.Next
+			}
+		}
+		if v.Next != nil {
+			return c.getPathNodeByGuid(node+"/"+k, v.Next, guid)
+		}
+	}
+	return "", nil, nil
 }
 
 //删除节点

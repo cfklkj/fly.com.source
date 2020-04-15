@@ -139,10 +139,17 @@ func (c *explorer) Mklink(path string, newName string) error {
 	if pwd.Node[des] != nil {
 		return errors.New("local have same node!")
 	}
-	pwd.Node[des] = recent.Node[node] //add
-	guid := pwd.Node[des].Guid
-	if !strings.Contains(guid, Ln_file) {
-		pwd.Node[des].Guid = Ln_file + guid
+	guid := recent.Node[node].Guid
+	pwd.SetGuid(des, guid)
+	if recent.Node[node].Next != nil { //dir
+		if !strings.Contains(guid, Ln_dir) {
+			pwd.Node[des].Guid = Ln_dir + guid
+		}
+		pwd.AddNextNode(des)
+	} else {
+		if !strings.Contains(guid, Ln_file) {
+			pwd.Node[des].Guid = Ln_file + guid
+		}
 	}
 	c.db.SetKeyValue(Cmd_dir, dirs)
 	c.printPwd(c.getPwdStr(), des, pwd.Node[des])
@@ -170,12 +177,25 @@ func (c *explorer) Ls(path string, all bool, switchLs string) error {
 	if err != nil {
 		return err
 	}
-	_, _, next := c.getPathNode(dirs, pwd)
+	guid, recent, next := c.getPathNode(dirs, pwd)
 	if next == nil {
-		return errors.New("no find node!")
+		if recent != nil { //file
+			node := pwd[len(pwd)-1]
+			c.printPwd(c.nodeToStr(pwd), "", recent.Node[node])
+			return nil
+		} else {
+			return errors.New("no find node!")
+		}
 	}
 	step := 0
-	c.ls(c.nodeToStr(pwd), next, all, switchLs, &step)
+	if strings.Contains(guid, Ln_dir) {
+		guid = strings.Replace(guid, Ln_dir, "", -1)
+		pwdStr, _, next := c.getPathNodeByGuid("", dirs, &guid)
+		fmt.Println(c.nodeToStr(pwd) + "\t--> " + pwdStr)
+		c.ls(pwdStr, next, all, switchLs, &step)
+	} else {
+		c.ls(c.nodeToStr(pwd), next, all, switchLs, &step)
+	}
 	return nil
 }
 func (c *explorer) ls(pwd string, node *PathNode, all bool, switchLs string, step *int) {
