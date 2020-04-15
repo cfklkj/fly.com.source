@@ -12,8 +12,9 @@ func (c *explorer) isPwd(node []string) (nodeIndex, pwdIndex int, res bool) {
 		return 0, 0, false
 	}
 	index := 0
+	length := len(pwd) - 1
 	for _, v := range node {
-		if v != pwd[index] {
+		if index > length || v != pwd[index] {
 			return 0, 0, false
 		}
 		index += 1

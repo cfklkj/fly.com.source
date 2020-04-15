@@ -12,14 +12,14 @@ import (
 
 type Exp interface {
 	Pwd() error
-	Ls(path string, switchLs string) error
+	Ls(path string, all bool, switchLs string) error
 	Cd(path string) error
 	Mkdir(path string) error
 	Mkfile(path string) error
 	Mklink(path, newName string) error
 	Rm(path string) error
 	Mv(path string, newName string) error
-	Find(path string, str string, switchFi string) error
+	Find(path string, str string, all bool, switchFi string) error
 }
 
 func Exps() Exp {
@@ -161,7 +161,7 @@ func (c *explorer) Cd(path string) error {
 	return c.Pwd()
 }
 
-func (c *explorer) Ls(path string, switchLs string) error {
+func (c *explorer) Ls(path string, all bool, switchLs string) error {
 	pwd, v := c.split(path)
 	if v != nil {
 		return v
@@ -175,17 +175,17 @@ func (c *explorer) Ls(path string, switchLs string) error {
 		return errors.New("no find node!")
 	}
 	step := 0
-	c.ls(c.nodeToStr(pwd), next, switchLs, &step)
+	c.ls(c.nodeToStr(pwd), next, all, switchLs, &step)
 	return nil
 }
-func (c *explorer) ls(pwd string, node *PathNode, switchLs string, step *int) {
+func (c *explorer) ls(pwd string, node *PathNode, all bool, switchLs string, step *int) {
 	for k, v := range node.Node {
 		if v == nil {
 			continue
 		}
 
-		if v.Next != nil {
-			c.ls(pwd+k+"/", v.Next, switchLs, step)
+		if v.Next != nil && all {
+			c.ls(pwd+k+"/", v.Next, all, switchLs, step)
 		}
 		switch switchLs {
 		case Ls_dir:
@@ -258,6 +258,9 @@ func (c *explorer) Rm(path string) error {
 
 func (c *explorer) deleteNodeFiles(node *PathNode) {
 	for k, v := range node.Node {
+		if v == nil {
+			continue
+		}
 		if v.Next != nil {
 			c.deleteNodeFiles(v.Next)
 		} else { //文件
@@ -298,7 +301,7 @@ func (c *explorer) Mv(path string, newName string) error {
 	c.printPwd(c.getPwdStr(), des, pwd.Node[des])
 	return nil
 }
-func (c *explorer) Find(path string, str string, switchFi string) error {
+func (c *explorer) Find(path string, str string, all bool, switchFi string) error {
 	if str == "" {
 		return errors.New("findStr is empty")
 	}
@@ -315,6 +318,6 @@ func (c *explorer) Find(path string, str string, switchFi string) error {
 		return errors.New("no find:" + path)
 	}
 	step := 0
-	c.findStr(c.nodeToStr(k), pwd, str, switchFi, &step)
+	c.findStr(c.nodeToStr(k), pwd, str, all, switchFi, &step)
 	return nil
 }

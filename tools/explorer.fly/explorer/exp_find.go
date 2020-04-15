@@ -33,13 +33,18 @@ func (c *explorer) showMore(step *int) {
 	}
 	*step += 1
 }
-func (c *explorer) findStr(pwd string, node *PathNode, str, switchFi string, step *int) {
+func (c *explorer) findStr(pwd string, node *PathNode, str string, all bool, switchFi string, step *int) {
 	for k, v := range node.Node {
 		if v == nil {
 			continue
 		}
-		if v.Next != nil {
-			c.findStr(pwd+k+"/", v.Next, str, switchFi, step)
+		if all {
+			if v.Next != nil {
+				c.findStr(pwd+k+"/", v.Next, str, all, switchFi, step)
+			} else {
+				c.findValue(pwd+k+"/", c.db.GetWorkPath()+"/"+v.Guid, str, step)
+				continue
+			}
 		}
 		switch switchFi {
 		case Fi_dir:
