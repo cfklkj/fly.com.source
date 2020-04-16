@@ -1,4 +1,4 @@
-package explorer
+package notepad
 
 const (
 	DataType_file     = 1001

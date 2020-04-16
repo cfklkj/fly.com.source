@@ -1,4 +1,4 @@
-package explorer
+package notepad
 
 import (
 	"errors"
@@ -177,7 +177,7 @@ func (c *explorer) Mktag(path string, tagName string) error {
 	if guid == "" {
 		return errors.New("no find:" + path)
 	}
-	fmt.Println(tagName + ":\t--> " + c.nodeToStr(k))
+	fmt.Println(tagName + ":\t--> " + path)
 	return c.tagAdd(tagName, guid)
 }
 
@@ -197,10 +197,12 @@ func (c *explorer) LsGuids(tagName string) error {
 		}
 		pwdStr, recent, _ := c.getPathNodeByGuid("", dirs, &v)
 		if recent == nil {
+			c.tagDel(tagName, v)
 			continue
 		}
 		nodes, err := c.split(pwdStr)
 		if err != nil {
+			c.tagDel(tagName, v)
 			continue
 		}
 		node := nodes[len(nodes)-1]

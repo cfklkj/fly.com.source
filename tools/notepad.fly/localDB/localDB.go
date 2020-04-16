@@ -34,5 +34,5 @@ func (c *LocalDB) addUserDir() string {
 }
 
 func (c *LocalDB) GetWorkPath() string {
-	return "./explorer.fly"
+	return "./notepad.fly.doc"
 }

@@ -7,11 +7,11 @@ import (
 	"os"
 	"strings"
 
-	"./explorer"
+	"./notepad"
 )
 
 func help() {
-	fmt.Println("explorer.fly.exe \n[ pwd | mkdir | mkfile | mklink | mktag | rm | cd | mv] | [ ls [-a] [-f | -d | -t ] ] | [ find <path> strings [-a] [-f | -d | -v | -t ] ")
+	fmt.Println("notepad.fly.exe \n[ pwd | mkdir | mkfile | mklink | mktag | cd | mv] | rm [-t] | [ ls [-a] [-f | -d | -t ] ] | [ find <path> strings [-a] [-f | -d | -v | -t ] ")
 	fmt.Println("pwd  查看当前目录\nmkdir 创建目录\nmkfile 创建文件\ncd 变更到指定目录\nmv 移动目标到当前目录")
 	fmt.Println("mklink 创建链接\nmktag 创建标签")
 	fmt.Println("ls 列出当前目录信息\nfind 查找信息")
@@ -27,9 +27,9 @@ func showHelp(cmd string) {
 		"mkdir":  "创建目录\n eg:\n\tmkdir path",
 		"mkfile": "创建文件\n eg:\n\tmkfile path",
 		"mktag":  "创建标签\n eg:\n\tmktag path tagname",
-		"rm":     "删除目标\n eg:\n\trm path",
+		"rm":     "删除目标\n eg:\n\trm path\n删除标签:\n\t-t [tagname] [-d pathname]",
 		"cd":     "变更到到指定目录\n eg:\n\tcd path",
-		"mv":     "移动目标到当前目录\n eg:\n\tmv path [newName\n删除标签:\n\t-t [tagname] [-d pathname]",
+		"mv":     "移动目标到当前目录\n eg:\n\tmv path [newName]",
 		"mklink": "创建目标链接到当前目录\n eg:\n\tmklink path [newName]",
 		"ls":     "列出信息:\n\t-f 文件\n\t-d 目录\n 复选: \n\t-a 列出所有 \n eg:\n\tls path [-d] [-a]\n查找标签:\n\t-t [tagname]",
 		"find":   "查询信息:\n\t-f 文件\n\t-d 目录\t-v 文件内容查找\n 复选: \n\t-a 列出所有 \n eg:\n\tfind path str [-d] [-a]\n查找标签:\n\t-t pathName",
@@ -38,21 +38,6 @@ func showHelp(cmd string) {
 		fmt.Println(cmd, v)
 	}
 }
-
-// func check(err error) {
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		help()
-// 		os.Exit(0)
-// 	}
-// }
-
-// func checkArgs(args []string, lenth int) {
-// 	if len(args) < lenth+1 {
-// 		help()
-// 		os.Exit(0)
-// 	}
-// }
 
 func checkErr(cmd string, err error) {
 	if err != nil {
@@ -137,7 +122,7 @@ func main() {
 }
 func exp(args []string) {
 	cmd := getArg(args, 1, "help")
-	exp := explorer.Exps()
+	exp := notepad.Exps()
 	switch cmd {
 	case "mklink":
 		path := getArg(args, 2, "")
@@ -147,9 +132,9 @@ func exp(args []string) {
 	case "pwd":
 		exp.Pwd()
 	case "ls":
-		switchLs := getTag(args, explorer.Tag_)
+		switchLs := getTag(args, notepad.Tag_)
 		if switchLs != "" {
-			tagName := getTagValue(args, explorer.Tag_)
+			tagName := getTagValue(args, notepad.Tag_)
 			var err error
 			if tagName != "" {
 				err = exp.LsGuids(tagName)
@@ -159,8 +144,8 @@ func exp(args []string) {
 			checkErr(cmd, err)
 		} else {
 			path := getArg(args, 2, ".")
-			switchLs := getTag(args, explorer.Ls_dir+explorer.Ls_file+explorer.Tag_)
-			all := getTag(args, explorer.LayoutAll)
+			switchLs := getTag(args, notepad.Ls_dir+notepad.Ls_file+notepad.Tag_)
+			all := getTag(args, notepad.LayoutAll)
 			err := exp.Ls(path, all != "", switchLs)
 			checkErr(cmd, err)
 		}
@@ -183,26 +168,26 @@ func exp(args []string) {
 		err := exp.Mktag(path, tagName)
 		checkErr(cmd, err)
 	case "rm":
-		path := getArg(args, 2, "")
-		err := exp.Rm(path)
-		checkErr(cmd, err)
-	case "mv":
-		switchLs := getTag(args, explorer.Tag_)
+		switchLs := getTag(args, notepad.Tag_)
 		if switchLs != "" {
-			tagName := getTagValue(args, explorer.Tag_)
-			path := getTagValue(args, explorer.Tag_dir)
+			tagName := getTagValue(args, notepad.Tag_)
+			path := getTagValue(args, notepad.Tag_dir)
 			err := exp.MvTag(tagName, path)
 			checkErr(cmd, err)
 		} else {
 			path := getArg(args, 2, "")
-			newName := getArg(args, 3, "")
-			err := exp.Mv(path, newName)
+			err := exp.Rm(path)
 			checkErr(cmd, err)
 		}
+	case "mv":
+		path := getArg(args, 2, "")
+		newName := getArg(args, 3, "")
+		err := exp.Mv(path, newName)
+		checkErr(cmd, err)
 	case "find":
-		switchLs := getTag(args, explorer.Tag_)
+		switchLs := getTag(args, notepad.Tag_)
 		if switchLs != "" {
-			path := getTagValue(args, explorer.Tag_)
+			path := getTagValue(args, notepad.Tag_)
 			if path != "" {
 				err := exp.LsTagNames(path)
 				checkErr(cmd, err)
@@ -210,8 +195,8 @@ func exp(args []string) {
 		} else {
 			path := getArg(args, 2, ".")
 			substr := getArg(args, 3, "")
-			switchFi := getTag(args, explorer.Fi_dir+explorer.Fi_file+explorer.Fi_value)
-			all := getTag(args, explorer.LayoutAll)
+			switchFi := getTag(args, notepad.Fi_dir+notepad.Fi_file+notepad.Fi_value)
+			all := getTag(args, notepad.LayoutAll)
 			err := exp.Find(path, substr, all != "", switchFi)
 			checkErr(cmd, err)
 		}
