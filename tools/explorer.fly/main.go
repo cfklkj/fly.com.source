@@ -29,7 +29,7 @@ func showHelp(cmd string) {
 		"mktag":  "创建标签\n eg:\n\tmktag path tagname",
 		"rm":     "删除目标\n eg:\n\trm path",
 		"cd":     "变更到到指定目录\n eg:\n\tcd path",
-		"mv":     "移动目标到当前目录\n eg:\n\tmv path [newName]",
+		"mv":     "移动目标到当前目录\n eg:\n\tmv path [newName\n删除标签:\n\t-t [tagname] [-d pathname]",
 		"mklink": "创建目标链接到当前目录\n eg:\n\tmklink path [newName]",
 		"ls":     "列出信息:\n\t-f 文件\n\t-d 目录\n 复选: \n\t-a 列出所有 \n eg:\n\tls path [-d] [-a]\n查找标签:\n\t-t [tagname]",
 		"find":   "查询信息:\n\t-f 文件\n\t-d 目录\t-v 文件内容查找\n 复选: \n\t-a 列出所有 \n eg:\n\tfind path str [-d] [-a]\n查找标签:\n\t-t pathName",
@@ -147,9 +147,9 @@ func exp(args []string) {
 	case "pwd":
 		exp.Pwd()
 	case "ls":
-		switchLs := getTag(args, explorer.Ls_tag)
+		switchLs := getTag(args, explorer.Tag_)
 		if switchLs != "" {
-			tagName := getTagValue(args, explorer.Ls_tag)
+			tagName := getTagValue(args, explorer.Tag_)
 			var err error
 			if tagName != "" {
 				err = exp.LsGuids(tagName)
@@ -159,7 +159,7 @@ func exp(args []string) {
 			checkErr(cmd, err)
 		} else {
 			path := getArg(args, 2, ".")
-			switchLs := getTag(args, explorer.Ls_dir+explorer.Ls_file+explorer.Ls_tag)
+			switchLs := getTag(args, explorer.Ls_dir+explorer.Ls_file+explorer.Tag_)
 			all := getTag(args, explorer.LayoutAll)
 			err := exp.Ls(path, all != "", switchLs)
 			checkErr(cmd, err)
@@ -187,14 +187,22 @@ func exp(args []string) {
 		err := exp.Rm(path)
 		checkErr(cmd, err)
 	case "mv":
-		path := getArg(args, 2, "")
-		newName := getArg(args, 3, "")
-		err := exp.Mv(path, newName)
-		checkErr(cmd, err)
-	case "find":
-		switchLs := getTag(args, explorer.Ls_tag)
+		switchLs := getTag(args, explorer.Tag_)
 		if switchLs != "" {
-			path := getTagValue(args, explorer.Ls_tag)
+			tagName := getTagValue(args, explorer.Tag_)
+			path := getTagValue(args, explorer.Tag_dir)
+			err := exp.MvTag(tagName, path)
+			checkErr(cmd, err)
+		} else {
+			path := getArg(args, 2, "")
+			newName := getArg(args, 3, "")
+			err := exp.Mv(path, newName)
+			checkErr(cmd, err)
+		}
+	case "find":
+		switchLs := getTag(args, explorer.Tag_)
+		if switchLs != "" {
+			path := getTagValue(args, explorer.Tag_)
 			if path != "" {
 				err := exp.LsTagNames(path)
 				checkErr(cmd, err)

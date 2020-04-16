@@ -22,13 +22,14 @@ func (c *TagAttribute) find(guid string) bool {
 func (c *TagAttribute) Add(guid string) {
 	c.Guids = append(c.Guids, guid)
 }
-func (c *TagAttribute) Del(guid string) {
+func (c *TagAttribute) Del(guid string) bool {
 	for index, v := range c.Guids {
 		if v == guid {
 			c.Guids = append(c.Guids[:index], c.Guids[index+1:]...)
-			break
+			return true
 		}
 	}
+	return false
 }
 
 type TagNode struct {
@@ -75,9 +76,39 @@ func (c *explorer) tagDel(tagName, guid string) error {
 	if err != nil {
 		return err
 	}
-	if v := tagNode.Node[tagName]; v != nil {
-		v.Del(guid)
-		c.db.SetKeyValue(Cmd_dir, tagNode)
+	if tagName != "" && guid != "" {
+		if v := tagNode.Node[tagName]; v != nil {
+			if v.Del(guid) {
+				c.db.SetKeyValue(Cmd_tag, tagNode)
+				return nil
+			}
+		}
+		return errors.New("no find tagName and path")
+	} else if tagName != "" {
+		if v := tagNode.Node[tagName]; v != nil {
+			delete(tagNode.Node, tagName)
+			c.db.SetKeyValue(Cmd_tag, tagNode)
+		} else {
+			return errors.New("no find tagName")
+		}
+	} else if guid != "" {
+		tagNode, err := c.getTagNode()
+		if err != nil {
+			return err
+		}
+		update := false
+		for _, v := range tagNode.Node {
+			if v.Del(guid) {
+				update = true
+			}
+		}
+		if update {
+			c.db.SetKeyValue(Cmd_tag, tagNode)
+		} else {
+			return errors.New("no find path have tag")
+		}
+	} else {
+		return errors.New("no find path have tag")
 	}
 	return nil
 }

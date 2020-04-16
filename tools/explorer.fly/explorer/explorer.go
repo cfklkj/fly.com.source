@@ -23,6 +23,7 @@ type Exp interface {
 	Mktag(path, tagName string) error
 	Rm(path string) error
 	Mv(path string, newName string) error
+	MvTag(tagName, path string) error
 	Find(path string, str string, all bool, switchFi string) error
 }
 
@@ -363,7 +364,24 @@ func (c *explorer) deleteNodeFiles(node *PathNode) {
 		}
 	}
 }
-
+func (c *explorer) MvTag(tagName, path string) error {
+	guid := ""
+	if path != "" {
+		k, v := c.split(path)
+		if v != nil {
+			return v
+		}
+		dirs, err := c.getDBdir()
+		if err != nil {
+			return err
+		}
+		guid, _, _ = c.getPathNode(dirs, k)
+		if guid == "" {
+			return errors.New("no find:" + path)
+		}
+	}
+	return c.tagDel(tagName, guid)
+}
 func (c *explorer) Mv(path string, newName string) error {
 	k, v := c.split(path)
 	if v != nil {
