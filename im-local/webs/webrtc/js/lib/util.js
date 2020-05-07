@@ -27,8 +27,24 @@ var util = flyUtil.commonMethod  = {
             return ip[0]
         }
     },
-    getUrl:function(){   
-        return window.location.host 
+    getWsUrl:function(){   
+        if (window.location.href.indexOf("https") > -1) {
+            return  "wss://" + window.location.host 
+        }
+        return "ws://" + window.location.host 
+    },
+    getSearchString:function(key, Url) {
+        var str = Url;
+        str = str.substring(1, str.length); // 获取URL中?之后的字符（去掉第一位的问号）
+        // 以&分隔字符串，获得类似name=xiaoli这样的元素数组
+        var arr = str.split("&");
+        var obj = new Object();
+        // 将每一个数组元素以=分隔并赋给obj对象 
+        for (var i = 0; i < arr.length; i++) {
+            var tmp_arr = arr[i].split("=");
+            obj[decodeURIComponent(tmp_arr[0])] = decodeURIComponent(tmp_arr[1]);
+        }
+        return obj[key];
     },
     addEle:function(tag){
         return document.createElement(tag) //li a

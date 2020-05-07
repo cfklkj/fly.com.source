@@ -1,0 +1,12 @@
+
+document.write('<script  type="text/javascript" src="js/lib/util.js"></script>')   
+document.write('<script  type="text/javascript" src="js/lib/mem.js"></script>')   
+document.write('<script  type="text/javascript" src="js/lib/pako.min.js"></script>') 
+document.write('<script  type="text/javascript" src="js/lib/base64.js"></script>')   
+document.write('<script  type="text/javascript" src="js/layoutVideo.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/define.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/im.js"></script>')  
+document.write('<script  type="text/javascript" src="js/webrtc/channelStream.js"></script>')  
+document.write('<script  type="text/javascript" src="js/webrtc/channelChange.js"></script>')  
+document.write('<script  type="text/javascript" src="js/webrtc/media.js"></script>')  
+document.write('<script  type="text/javascript" src="js/video.js"></script>')  

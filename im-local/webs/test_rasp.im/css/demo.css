@@ -1,0 +1,97 @@
+#bodys{
+ position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  /*实现块元素百分比下居中*/
+  width:976px;
+  height:756px;
+  background:rgba(243,241,243,1);
+  opacity:1;
+  border-radius:15px; 
+}
+.bLeft{
+    float: left;
+    width: 400px;
+    height: inherit;
+    background:rgb(184, 130, 184);
+}
+.bMiddle{
+    float: left;
+    width: 176px;
+    height: inherit;
+    background:rgb(160, 130, 160);
+}
+.bRight{
+    display: inline-block;
+    width: 400px;
+    height: inherit;
+    background:rgb(184, 130, 184);
+}
+
+.bLeftTop{
+    display:block;
+    width: inherit;
+    height: 300px; 
+}
+.bLeftTop button {
+   padding: 11px 18px;
+}
+.bLeftBottom{
+    display:block;
+    width: inherit;
+    height: 450px;
+    background:rgb(80, 72, 80);
+}
+.bLeftBottom textarea{
+    width: 378px;
+    height: 436px; 
+    font-size: 18px; 
+    border: none;
+    padding:10px 11px;
+    background-color: rgb(143, 102, 143);
+}
+
+.bMiddle div{
+    width: inherit;
+    height: 35px;
+    padding-top: 10px;
+    text-align: center;
+    background-color: rgb(189, 185, 143);
+    position: absolute;
+    top: 50%;
+    margin-top: -30px;
+}
+/* .bMiddle div[index="1"]{
+    width: inherit;
+    height: 35px;
+    padding-top: 10px;
+    text-align: center;
+    background-color: rgb(189, 185, 143);
+    position: absolute;
+    top: 50%;
+    margin-top: -30px;
+}
+.bMiddle div[index="2"]{
+    width: inherit;
+    height: 35px;
+    padding-top: 10px;
+    text-align: center;
+    background-color: rgb(189, 185, 143);
+    position: absolute;
+    top: 50%;
+    margin-top: +30px;
+} */
+.bMiddle div:hover{
+    background-color: khaki;
+    cursor: pointer;
+}
+
+.bRight textarea{
+    width: 380px;
+    height: 733px; 
+    font-size: 18px;
+    background: inherit;
+    border: none;
+    padding:10px 11px; 
+}

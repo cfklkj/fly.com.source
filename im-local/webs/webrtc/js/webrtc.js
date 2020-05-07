@@ -1,27 +1,55 @@
+document.write('<script  type="text/javascript" src="js/lib/debug.js"></script>')  
+document.write('<script  type="text/javascript" src="js/debug.js"></script>')  
+document.write('<script  type="text/javascript" src="js/device.js"></script>')  
+document.write('<script  type="text/javascript" src="js/channel.js"></script>')  
+document.write('<script  type="text/javascript" src="js/lib/util.js"></script>')  
+document.write('<script  type="text/javascript" src="js/video/media.js"></script>') 
+document.write('<script  type="text/javascript" src="js/video/takephoto.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/define.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/streamLocal.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/streamRemote.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/streamChange.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/im.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/peer.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/channelData.js"></script>')  
+document.write('<script  type="text/javascript" src="js/im/channelStream.js"></script>')  
+document.write('<script  type="text/javascript" src="js/lib/mem.js"></script>')  
+document.write('<script  type="text/javascript" src="js/lib/pako.min.js"></script>')  
+document.write('<script  type="text/javascript" src="js/checkTurn.js"></script>')  
+
 var imLoad = imLoad || {};
 var loadIm = imLoad.Method = {  
     script:null,
     writes:function(){
         // this.write('<script  type="text/javascript" src="js/lib/util.js"></script>')    
-        this.writeJs("js/lib/debug.js")  
-        this.writeJs("js/debug.js")  
-        this.writeJs("js/device.js")
-        this.writeJs("js/lib/util.js")
-        this.writeJs("js/lib/mem.js")    
-        this.writeJs("js/lib/pako.min.js")    
-        this.writeJs("js/layoutConsole.js")    
-        this.writeJs("js/layoutMain.js")    
-        this.writeJs("js/layoutMenu.js")    
-        this.writeJs("js/layoutTitle.js")    
-        this.writeJs("js/layoutChat.js")    
-        this.writeJs("js/layoutChats.js")    
-        this.writeJs("js/websocket.js")    
-        this.writeJs("js/routeMsg.js")    
-        this.writeJs("js/define.js")    
-        this.writeJs("js/clicks.js")    
-        this.writeJs("js/webHttp.js")    
-        this.writeJs("js/layoutLogin.js")    
-        this.writeJs("js/imgDlg.js")     
+        // this.writeJs("js/lib/debug.js")  
+        // this.writeJs("js/debug.js")  
+        // this.writeJs("js/device.js")
+        // this.writeJs("js/channel.js")
+        // this.writeJs("js/lib/util.js")
+        // this.writeJs("js/video/media.js")
+        // this.writeJs("js/video/takephoto.js") 
+        // this.writeJs("js/im/define.js")
+        // this.writeJs("js/im/streamLocal.js")
+        // this.writeJs("js/im/streamRemote.js")
+        // this.writeJs("js/im/streamChange.js")
+        // this.writeJs("js/im/im.js")
+        // this.writeJs("js/im/peer.js")
+        //  this.writeJs("js/lib/mem.js")    
+        // this.writeJs("js/lib/pako.min.js")    
+        // this.writeJs("js/layoutConsole.js")    
+        // this.writeJs("js/layoutMain.js")    
+        // this.writeJs("js/layoutMenu.js")    
+        // this.writeJs("js/layoutTitle.js")    
+        // this.writeJs("js/layoutChat.js")    
+        // this.writeJs("js/layoutChats.js")    
+        // this.writeJs("js/websocket.js")    
+        // this.writeJs("js/routeMsg.js")    
+        // this.writeJs("js/define.js")    
+        // this.writeJs("js/clicks.js")    
+        // this.writeJs("js/webHttp.js")    
+        // this.writeJs("js/layoutLogin.js")    
+        // this.writeJs("js/imgDlg.js")     
     },
     writeJs:function(path){  
        var scriptNode = document.createElement("script");
@@ -76,6 +104,8 @@ var loadIm = imLoad.Method = {
 
 window.onload = main   
 function main(){
+    init()
+    return
     loadIm.writes() 
     setTimeout("init()", 1000)   //web 外部网络 时间要延长
 }
