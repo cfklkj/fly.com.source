@@ -2,7 +2,9 @@ package rpc
 
 import (
 	"errors"
+	"net"
 	"net/rpc"
+	"time"
 
 	Mem "fly.com.sub/mem"
 )
@@ -27,7 +29,19 @@ func (c *client) FindCon(url string) bool {
 func (c *client) DelCon(url string) {
 	c.mem.Del(url)
 }
+func (c *client) checkCon(url string) error {
+	timeout := time.Second * 3
+	conn, err := net.DialTimeout("tcp", url, timeout)
+	if err != nil {
+		return err
+	}
+	defer conn.Close()
+	return nil
+}
 func (c *client) AddCon(url string) error {
+	if err := c.checkCon(url); err != nil {
+		return err
+	}
 	conn, err := rpc.Dial("tcp", url)
 	if err != nil {
 		return err

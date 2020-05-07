@@ -1,6 +1,7 @@
 package define
 
 const (
+	TIMBody_heart     = 110    //心跳
 	TIMBody_login     = 110001 //登入
 	TIMBody_loginOut  = 110002 //退出
 	TIMBody_singleMsg = 110003 //发送私聊消息
