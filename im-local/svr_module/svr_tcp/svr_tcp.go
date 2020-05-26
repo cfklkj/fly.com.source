@@ -87,6 +87,10 @@ func (c *SvrTcp) BroadMsg(con net.Conn, msg []byte) {
 func (c *SvrTcp) RouteMsg(con net.Conn, msg []byte) {
 	var info MsgInfo
 	json.Unmarshal(msg, &info)
+	if info.Data == "heart" {
+		c.tcp.SetHdTime(con, 50000)
+		return
+	}
 	if c.login.GetCon(info.From) != con {
 		c.tcp.SendMsg(con, []byte("err-fmt:"+string(msg)))
 		con.Close()
@@ -95,6 +99,9 @@ func (c *SvrTcp) RouteMsg(con net.Conn, msg []byte) {
 	if v := c.login.GetCon(info.To); v != nil {
 		if !c.tcp.SendMsg(v.(net.Conn), msg) {
 			c.loginOut(v.(net.Conn))
+		} else {
+			return
 		}
 	}
+	c.tcp.SendMsg(con, []byte("err-to:"+string(msg)))
 }

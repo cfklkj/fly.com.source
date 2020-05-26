@@ -2,6 +2,12 @@
 
 var click = click || {};
 var clicks = click.Method = {  
+    copys:function(event){
+        obj = event.srcElement ? event.srcElement : event.target 
+        if (obj.tagName == "XMP"){
+            util.copyData(obj) 
+        }
+    },
     selectContent:function(event){
         if (typeof(event) == 'string') {
             user = memHash.get(imDefine.login_user)
@@ -54,7 +60,9 @@ var clicks = click.Method = {
         }
         password = ""
         //需要修改对应端口
-        localSocket.connect("ws://" + util.getIp()+ ":802/wss", username, password) 
+       localSocket.connect("ws://" + util.getIp()+ ":802/wss", username, password) 
+      //localSocket.connect("ws://122.51.33.81:802/wss", username, password) 
    
      }
 }
+document.ondbclick = clicks.copys

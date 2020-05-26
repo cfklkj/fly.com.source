@@ -1,12 +1,12 @@
 var flyUtil =  flyUtil || {}; 
 
 var util = flyUtil.commonMethod  = {
-    zip:function(str){
-        var bStr = pako.gzip(encodeURIComponent(str),{to:'string'})
+    zip:function(str){ 
+        var bStr = pako.gzip(encodeURIComponent(str),{to:'string'}) 
         return btoa(bStr)
     },
     unzip:function(b64Data){ 
-        var strData   = atob(b64Data);
+        var strData   = atob(b64Data); 
         // Convert binary string to character-number array
         var charData  = strData.split('').map(function(x){return x.charCodeAt(0);});
         // Turn number array into byte-array

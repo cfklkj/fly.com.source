@@ -3,7 +3,7 @@
  
 REM  cd /d  E:\gits\remote\gitMe\fly.com.webs
 cd /d E:\gits\fly.com.source\fly.com.me\im-local\webs\test_rasp.im\goClient
-call:linux32 %1
+call:linux %1
 goto end
 
 :windows

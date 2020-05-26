@@ -24,11 +24,12 @@ type JsonFile struct {
 }
 
 func (c JsonFile) Init(filePath string) {
-	c.configAct.SetConfigPath(filePath)
 	if c.configAct == nil {
 		c.configAct = conf.NewConfig()
 		c.keyValue = localMem.NewHashInfo()
+		fmt.Println("SssS", c.keyValue)
 	}
+	c.configAct.SetConfigPath(filePath)
 	c.loadKeyValue()
 }
 
@@ -55,6 +56,7 @@ func (c JsonFile) upKeyValue() {
 }
 
 func (c JsonFile) SetKeyValue(k, v interface{}) {
+	fmt.Println("SS", c.keyValue)
 	c.keyValue.Set(k, v)
 	c.upKeyValue()
 }
