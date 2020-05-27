@@ -57,8 +57,17 @@ func (c *SvrTcp) isLogin(conn net.Conn, msg []byte) bool {
 	var data loginInfo //---login check
 	json.Unmarshal(msg, &data)
 	if data.Login == "" || c.login.FindCon(data.Login) {
-		c.tcp.SendMsg(conn, []byte("err-logined"))
-		return false
+		if con := c.login.GetCon(data.Login); nil != con {
+			if !c.tcp.SendMsg(con.(net.Conn), []byte("heart")) {
+				c.loginOut(con.(net.Conn))
+			} else {
+				c.tcp.SendMsg(conn, []byte("err-logined"))
+				return false
+			}
+		} else {
+			c.tcp.SendMsg(conn, []byte("err-logined"))
+			return false
+		}
 	}
 	var info online
 	info.Online = data.Login
