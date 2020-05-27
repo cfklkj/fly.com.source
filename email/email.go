@@ -2,8 +2,10 @@ package email
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strconv"
+	"strings"
 
 	"gopkg.in/gomail.v2"
 )
@@ -21,7 +23,7 @@ func getArg(tag string) string {
 	return ""
 }
 func help() {
-	fmt.Println("eg:-ef fromQQemail -epwd fromQQpwd -et toEmail \n ")
+	fmt.Println("eg-发送邮件:-ef fromQQemail -epwd fromQQpwd -et toEmail -es true|false\n ")
 }
 
 func sendMail(from, pwd string, to string, asial, subject string, body string) error {
@@ -54,18 +56,49 @@ func sendMail(from, pwd string, to string, asial, subject string, body string) e
 
 }
 
-func SendMail(sub, body string) {
-	from := getArg("-ef")
-	pwd := getArg("-epwd")
+func SendMail(sub, body string) bool {
+	from, pwd := getMailCfg()
+	if from == "" {
+		from = getArg("-ef")
+		pwd = getArg("-epwd")
+	}
 	to := getArg("-et")
 	if from == "" || to == "" || pwd == "" {
 		help()
-		return
+		return false
 	}
 	err := sendMail(from, pwd, to, "Tips", sub, body)
 	if err != nil {
 		fmt.Println(err)
+		return false
 	} else {
 		fmt.Println("send " + sub + " tips")
+		return true
 	}
+}
+
+func SetEmailCfg() bool {
+	set := getArg("-es")
+	if set == "true" {
+		if SendMail("bindEmail", "email is binded") {
+			from := getArg("-ef")
+			pwd := getArg("-epwd")
+			data := from + " " + pwd
+			ioutil.WriteFile("./email.md", []byte(data), 0666)
+			return true
+		}
+	} else {
+		help()
+	}
+	return false
+}
+
+func getMailCfg() (from, pwd string) {
+	data, _ := ioutil.ReadFile("./email.md")
+	einfo := strings.Split(string(data), " ")
+	if len(einfo) > 1 {
+		from = einfo[0]
+		pwd = einfo[1]
+	}
+	return from, pwd
 }

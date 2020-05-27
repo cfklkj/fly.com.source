@@ -3,12 +3,14 @@ package main
 import (
 	"./email"
 	"./fund"
-	"./tickTimer"
 	weather "./weaher"
 )
 
 func main() {
-	if !tickTimer.TimeTicker() {
+	// if !tickTimer.TimeTicker() {
+	// 	return
+	// }
+	if email.SetEmailCfg() {
 		return
 	}
 	if info := fund.GetFundInfo(); info != "" {
