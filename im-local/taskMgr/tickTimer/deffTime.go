@@ -1,6 +1,9 @@
 package tickTimer
 
-import "time"
+import (
+	"strconv"
+	"time"
+)
 
 func abs(a int) int {
 	if a >= 0 {
@@ -19,4 +22,20 @@ func deffTime(h, m, s int) (int, bool) {
 	iT := h*3600 + m*60 + s
 	nT := H*3600 + M*60 + S
 	return (iT - nT), iT < nT
+}
+
+func StrArrayToInt(ts []string) (h, m, s int) {
+	for index, v := range ts {
+		if index == 0 {
+			h, _ = strconv.Atoi(v)
+		}
+		if index == 1 {
+			m, _ = strconv.Atoi(v)
+
+		}
+		if index == 2 {
+			s, _ = strconv.Atoi(v)
+		}
+	}
+	return h, m, s
 }

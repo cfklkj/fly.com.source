@@ -3,7 +3,6 @@ package tickTimer
 //https://blog.csdn.net/HYZX_9987/article/details/99947688
 import (
 	"fmt"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -12,19 +11,7 @@ func TimeTicker(tm string, next int) bool {
 	//var wait = 0
 	//var start = time.Now()
 	ts := strings.Split(tm, ":")
-	var h, m, s int
-	for index, v := range ts {
-		if index == 0 {
-			h, _ = strconv.Atoi(v)
-		}
-		if index == 1 {
-			m, _ = strconv.Atoi(v)
-
-		}
-		if index == 2 {
-			s, _ = strconv.Atoi(v)
-		}
-	}
+	h, m, s := StrArrayToInt(ts)
 	num, isAbs := deffTime(h, m, s)
 	//next, _ := strconv.Atoi(getArg("-tn")) //下一次执行时间
 	if next > 0 {

@@ -3,7 +3,6 @@ package task
 import (
 	"fmt"
 	"sort"
-	"strconv"
 	"strings"
 	"time"
 
@@ -22,6 +21,7 @@ func NewTask() *Task {
 }
 func (c *Task) initTick() {
 	ntm, next := c.getNearNextTm()
+	fmt.Println(ntm, next)
 	if ntm != "" {
 		c.nTm = ntm
 		go c.runNextTick(c.nTm, next)
@@ -81,8 +81,8 @@ func (c *Task) getNextTm(tm string) string {
 
 func (c *Task) getNearNextTm() (tm string, next int) {
 	t := time.Now() //2018-07-11 15:07:51.8858085 +0800 CST m=+0.004000001
-	H, M, _ := t.Clock()
-	now := strconv.Itoa(H) + ":" + strconv.Itoa(M)
+	H, M, S := t.Clock()
+	now := H*3600 + M*60 + S
 	index := -1
 	dbs := db.NewDB()
 	tms := dbs.GetTms()
@@ -91,13 +91,15 @@ func (c *Task) getNearNextTm() (tm string, next int) {
 	}
 	sort.Strings(tms)
 	for v, k := range tms {
-		if k < now {
+		ts := strings.Split(k, ":")
+		h, m, s := tickTimer.StrArrayToInt(ts)
+		set := h*3600 + m*60 + s
+		if now > set {
 			continue
 		}
-		index = v + 1
+		index = v
 		break
 	}
-	fmt.Println(index, now, tms)
 	if index == len(tms) || index == -1 {
 		return tms[0], 1
 	}

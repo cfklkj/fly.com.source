@@ -56,6 +56,7 @@ func (c *DB) AddTask(user, taskName, tm string, rateType int, cmd string) bool {
 	return false
 }
 
+
 func (c *DB) ListTask(user string) string {
 	rst := ""
 	for _, k := range c.tasklist[user] {

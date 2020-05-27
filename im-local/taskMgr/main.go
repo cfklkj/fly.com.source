@@ -64,6 +64,12 @@ func routeMsg(from, to, data string) []byte {
 				if dbs.AddTask(from, args[1], tm, rate, cmds[1]) {
 					info.Content = dbs.ListTask(from)
 					tasks.AddTick(tm)
+				} else {
+					if tm == "now" {
+						rst, err := tasks.Cmd(strings.Split(cmds[1], " "))
+						fmt.Println("now", string(rst), err)
+						return nil
+					}
 				}
 				return mkBackStr(from, to, info)
 			case Cmd_list:
